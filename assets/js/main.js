@@ -9,7 +9,7 @@ let offset = 0;
 
 function convertPokemonToLi(pokemon) {
     return `
-        <li onclick="teste(this)" id="${pokemon.number}" value="ola" class="pokemon ${pokemon.type}">
+        <li onclick="idPokemon(this)" id="${pokemon.number}" value="ola" class="pokemon ${pokemon.type}" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <span class="number">#${pokemon.number}</span>
             <span class="name">${pokemon.name}</span>
 
@@ -51,7 +51,12 @@ loadMoreButton.addEventListener('click', () => {
 
 
 // Puxa detalhes dos pokemons
-function teste(elemento){
+function idPokemon(elemento){
     console.log(elemento.id);
+
+    pokeApiCaracterPokemon.getPokemonsCaracter(elemento.id).then((pokemons = []) => {
+        const details = pokemons;
+        console.log(details);
+    })
 }
 
