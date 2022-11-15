@@ -1,6 +1,11 @@
-const pokemonList = document.getElementById('pokemonList')
-const loadMoreButton = document.getElementById('loadMoreButton')
-
+const pokemonList = document.getElementById('pokemonList');
+const loadMoreButton = document.getElementById('loadMoreButton');
+const typesPokemon = document.getElementById("types");
+const statsPokemon = document.getElementById("stats");
+const abilitiesPokemon = document.getElementById("abilities");
+const modalBackgroudColor = document.getElementById("modalColor");
+const namePokemon = document.getElementById("namePokemon");
+const imagePokemon = document.querySelector("#imagePokemon");;
 
 const maxRecords = 151
 const limit = 10
@@ -9,7 +14,7 @@ let offset = 0;
 
 function convertPokemonToLi(pokemon) {
     return `
-        <li onclick="idPokemon(this)" id="${pokemon.number}" value="ola" class="pokemon ${pokemon.type}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <li onclick="idPokemon(this)" id="${pokemon.number}" value="" class="pokemon ${pokemon.type}" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <span class="number">#${pokemon.number}</span>
             <span class="name">${pokemon.name}</span>
 
@@ -50,13 +55,39 @@ loadMoreButton.addEventListener('click', () => {
 
 
 
-// Puxa detalhes dos pokemons
-function idPokemon(elemento){
-    console.log(elemento.id);
+// Puxa o tipo do pokemon
+function pokemonCaracterTypeToLi(item, indice) {
+    typesPokemon.innerHTML += "<li class='listDetails'><div class='text-center'>"+item.type.name+"</div></li>";
+}
 
-    pokeApiCaracterPokemon.getPokemonsCaracter(elemento.id).then((pokemons = []) => {
-        const details = pokemons;
+// Puxa as estatiticas do pokemon
+function pokemonCaracterStatsToLi(item, indice) {
+    statsPokemon.innerHTML += "<div class='row'><div class='col-4'>"+item.stat.name+"</div><div class='col-4'>-----</div><div class='col-4'>"+item.base_stat+"</div></div>"; 
+}
+
+// Puxa as habilidades do pokemon
+function pokemonCaracterAbilitiesToLi(item, indice) {
+    abilitiesPokemon.innerHTML += "<li class='listDetails'><div class='text-center'>"+item.ability.name+"</div></li>"; 
+}
+
+function idPokemon(elemento){
+    pokeApiCaracterPokemon.getPokemonsCaracter(elemento.id).then((details) => {
+
+        details.types.forEach(pokemonCaracterTypeToLi);
+        details.stats.forEach(pokemonCaracterStatsToLi);
+        details.abilities.forEach(pokemonCaracterAbilitiesToLi);
+
+        modalBackgroudColor.classList.add(details.types[0].type.name);
+
+        // Colocar primeira letra em maiscula
+        namePoke = details.name.toLowerCase().replace(/(?:^|\s)\S/g, function(a) {
+            return a.toUpperCase();
+        });
+        namePokemon.innerHTML = namePoke;
+
+        // Imagem do pokemon
+        imagePokemon.setAttribute('src', ""+details.sprites.other.dream_world.front_default+"");
+
         console.log(details);
     })
 }
-
