@@ -57,17 +57,23 @@ loadMoreButton.addEventListener('click', () => {
 
 // Puxa o tipo do pokemon
 function pokemonCaracterTypeToLi(item, indice) {
-    typesPokemon.innerHTML += "<li class='listDetails'><div class='text-center'>"+item.type.name+"</div></li>";
+    typesPokemon.innerHTML += "<li class='listDetails detailPokemonItem mb-2'><div class='text-center'><span class='p-1 rounded "+item.type.name+"'>"+item.type.name+"</span></div></li>";
 }
 
 // Puxa as estatiticas do pokemon
 function pokemonCaracterStatsToLi(item, indice) {
-    statsPokemon.innerHTML += "<div class='row'><div class='col-4'>"+item.stat.name+"</div><div class='col-4'>-----</div><div class='col-4'>"+item.base_stat+"</div></div>"; 
+    let colorPoint = "highPoint";
+
+    if(item.base_stat < 50) {
+        colorPoint = "lowPoint";
+    }
+
+    statsPokemon.innerHTML += "<div class='row detailPokemonItem'><div class='col-8'>"+item.stat.name+"</div><div class='col-4 "+colorPoint+"'>"+item.base_stat+"</div></div>"; 
 }
 
 // Puxa as habilidades do pokemon
 function pokemonCaracterAbilitiesToLi(item, indice) {
-    abilitiesPokemon.innerHTML += "<li class='listDetails'><div class='text-center'>"+item.ability.name+"</div></li>"; 
+    abilitiesPokemon.innerHTML += "<li class='listDetails detailPokemonItem'><div class='text-center'>"+item.ability.name+"</div></li>"; 
 }
 
 function idPokemon(elemento){

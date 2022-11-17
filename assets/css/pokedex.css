@@ -154,6 +154,23 @@
     border-radius: 1rem;
 }
 
+.detailPokemonTitle {
+    font-size: 13px;
+}
+
+.detailPokemonItem {
+    font-size: 10px;
+}
+
+.highPoint {
+    color: #77c850;
+}
+
+.lowPoint {
+    color: red;
+}
+
+
 @media screen and (min-width: 380px) {
     .pokemons {
         grid-template-columns: 1fr 1fr;
