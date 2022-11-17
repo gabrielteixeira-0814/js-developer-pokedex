@@ -1,6 +1,5 @@
 const pokemonList = document.getElementById('pokemonList');
 const loadMoreButton = document.getElementById('loadMoreButton');
-const typesPokemon = document.getElementById("types");
 const statsPokemon = document.getElementById("stats");
 const abilitiesPokemon = document.getElementById("abilities");
 const modalBackgroudColor = document.getElementById("modalColor");
@@ -11,10 +10,9 @@ const maxRecords = 151
 const limit = 10
 let offset = 0;
 
-
 function convertPokemonToLi(pokemon) {
     return `
-        <li onclick="idPokemon(this)" id="${pokemon.number}" value="" class="pokemon ${pokemon.type}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <li onclick="idPokemon(this);" id="${pokemon.number}" value="" class="pokemon ${pokemon.type}" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <span class="number">#${pokemon.number}</span>
             <span class="name">${pokemon.name}</span>
 
@@ -53,11 +51,23 @@ loadMoreButton.addEventListener('click', () => {
     }
 });
 
+function remover(){
+    const element = document.getElementById('typesPokemon');
+    element.remove();
+
+    let html = `<div id="typesPokemon" class="typesPokemon"></div>`;
+
+    let div = document.createElement('div');
+    div.innerHTML = html;
+    document.getElementById('detailsTypes').appendChild(div);
+ }
+
+ const typesPokemon = document.getElementById("typesPokemon");
 
 
-// Puxa o tipo do pokemon
+ // Puxa o tipo do pokemon
 function pokemonCaracterTypeToLi(item, indice) {
-    typesPokemon.innerHTML += "<li class='listDetails detailPokemonItem mb-2'><div class='text-center'><span class='p-1 rounded "+item.type.name+"'>"+item.type.name+"</span></div></li>";
+    typesPokemon.innerHTML += "<li class='listDetails detailPokemonItem mb-2' id='list'><div class='text-center'><span class='p-1 rounded "+item.type.name+"'>"+item.type.name+"</span></div></li>";
 }
 
 // Puxa as estatiticas do pokemon
@@ -68,15 +78,18 @@ function pokemonCaracterStatsToLi(item, indice) {
         colorPoint = "lowPoint";
     }
 
-    statsPokemon.innerHTML += "<div class='row detailPokemonItem'><div class='col-8'>"+item.stat.name+"</div><div class='col-4 "+colorPoint+"'>"+item.base_stat+"</div></div>"; 
+    statsPokemon.innerHTML += "<div class='row detailPokemonItem listDetails' id='list'><div class='col-8'>"+item.stat.name+"</div><div class='col-4 "+colorPoint+"'>"+item.base_stat+"</div></div>"; 
 }
 
 // Puxa as habilidades do pokemon
 function pokemonCaracterAbilitiesToLi(item, indice) {
-    abilitiesPokemon.innerHTML += "<li class='listDetails detailPokemonItem'><div class='text-center'>"+item.ability.name+"</div></li>"; 
+    abilitiesPokemon.innerHTML += "<li class='listDetails detailPokemonItem' id='list'><div class='text-center'>"+item.ability.name+"</div></li>"; 
 }
 
+
+  // Puxa os dados da api
 function idPokemon(elemento){
+    remover();
     pokeApiCaracterPokemon.getPokemonsCaracter(elemento.id).then((details) => {
 
         details.types.forEach(pokemonCaracterTypeToLi);
@@ -97,3 +110,8 @@ function idPokemon(elemento){
         console.log(details);
     })
 }
+
+
+
+
+
