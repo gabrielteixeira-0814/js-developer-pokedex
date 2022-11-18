@@ -41,5 +41,5 @@ pokeApiCaracterPokemon.getPokemonsCaracter = (id = 1) => {
     const url = `https://pokeapi.co/api/v2/pokemon/${id}/`
 
     return fetch(url)
-        .then((response) => response.json())
+        .then((response) => response.json()).catch(() => console.log('falha ao cadastrar'))
 }

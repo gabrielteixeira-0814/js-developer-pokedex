@@ -1,6 +1,6 @@
 const pokemonList = document.getElementById('pokemonList');
 const loadMoreButton = document.getElementById('loadMoreButton');
-const statsPokemon = document.getElementById("stats");
+//const statsPokemon = document.getElementById("stats");
 const abilitiesPokemon = document.getElementById("abilities");
 const modalBackgroudColor = document.getElementById("modalColor");
 const namePokemon = document.getElementById("namePokemon");
@@ -51,27 +51,18 @@ loadMoreButton.addEventListener('click', () => {
     }
 });
 
-function remover(){
-    const element = document.getElementById('typesPokemon');
-    element.remove();
-
-    let html = `<div id="typesPokemon" class="typesPokemon"></div>`;
-
-    let div = document.createElement('div');
-    div.innerHTML = html;
-    document.getElementById('detailsTypes').appendChild(div);
- }
-
- const typesPokemon = document.getElementById("typesPokemon");
-
 
  // Puxa o tipo do pokemon
 function pokemonCaracterTypeToLi(item, indice) {
+    const typesPokemon = document.getElementById("typesPokemon");
+
     typesPokemon.innerHTML += "<li class='listDetails detailPokemonItem mb-2' id='list'><div class='text-center'><span class='p-1 rounded "+item.type.name+"'>"+item.type.name+"</span></div></li>";
 }
 
 // Puxa as estatiticas do pokemon
 function pokemonCaracterStatsToLi(item, indice) {
+    const statsPokemon = document.getElementById("typesStats");
+
     let colorPoint = "highPoint";
 
     if(item.base_stat < 50) {
@@ -83,19 +74,26 @@ function pokemonCaracterStatsToLi(item, indice) {
 
 // Puxa as habilidades do pokemon
 function pokemonCaracterAbilitiesToLi(item, indice) {
-    abilitiesPokemon.innerHTML += "<li class='listDetails detailPokemonItem' id='list'><div class='text-center'>"+item.ability.name+"</div></li>"; 
-}
+    const abilitiesPokemon = document.getElementById("typeAbilities");
 
+    abilitiesPokemon.innerHTML += "<li class='listDetails detailPokemonItem' id='list'><div class='text-center p-1'><span class='p-1 rounded abilitiesList'><span><img id='imagePokemon' src='assets/image/thunder.png' alt='image' style='width: 10px;'></span> "+item.ability.name+"</span></div></li>"; 
+}
 
   // Puxa os dados da api
 function idPokemon(elemento){
-    remover();
+   
     pokeApiCaracterPokemon.getPokemonsCaracter(elemento.id).then((details) => {
+   
+        if(details){
+            remover();
+        }
 
         details.types.forEach(pokemonCaracterTypeToLi);
         details.stats.forEach(pokemonCaracterStatsToLi);
         details.abilities.forEach(pokemonCaracterAbilitiesToLi);
-
+        
+        modalBackgroudColor.classList.add("modal-content");
+        modalBackgroudColor.classList.add("text-white");
         modalBackgroudColor.classList.add(details.types[0].type.name);
 
         // Colocar primeira letra em maiscula
@@ -111,7 +109,35 @@ function idPokemon(elemento){
     })
 }
 
+function remover(){
+   
+    const typesPokemon = document.getElementById("typesPokemon");
+    typesPokemon.remove();
+    let div = document.createElement('div');
+    div.setAttribute("id", "typesPokemon");
+    div.classList.add("typesPokemon");
+    document.getElementById('detailsTypes').appendChild(div).innerHTML;
 
+    const statsPokemon = document.getElementById("typesStats");
+    statsPokemon.remove();
+    let divStatsPokemon = document.createElement('div');
+    divStatsPokemon.setAttribute("id", "typesStats");
+    divStatsPokemon.classList.add("typesStats");
+    document.getElementById('detailsStats').appendChild(divStatsPokemon).innerHTML;
 
+    const abilitiesPokemon = document.getElementById("typeAbilities");
+    abilitiesPokemon.remove();
+    let divAbilitiesPokemon = document.createElement('div');
+    divAbilitiesPokemon.setAttribute("id", "typeAbilities");
+    divAbilitiesPokemon.classList.add("typeAbilities");
+    document.getElementById('detailsAbilities').appendChild(divAbilitiesPokemon).innerHTML;
+
+    // Remover class modalColor
+    document.getElementById("modalColor").className = '';
+   
+
+    //console.log(modalColor);
+
+ }
 
 
