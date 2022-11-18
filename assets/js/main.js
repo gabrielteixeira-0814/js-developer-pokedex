@@ -1,14 +1,30 @@
 const pokemonList = document.getElementById('pokemonList');
-const loadMoreButton = document.getElementById('loadMoreButton');
 //const statsPokemon = document.getElementById("stats");
 const abilitiesPokemon = document.getElementById("abilities");
 const modalBackgroudColor = document.getElementById("modalColor");
 const namePokemon = document.getElementById("namePokemon");
-const imagePokemon = document.querySelector("#imagePokemon");;
+const imagePokemon = document.querySelector("#imagePokemon");
+const eventLoading = document.getElementById("eventLoading");
 
-const maxRecords = 151
-const limit = 10
+const maxRecords = 151;
+const limit = 10;
 let offset = 0;
+
+
+function loadingButton() {
+    //console.log(loading);
+    eventLoading.innerHTML += "<button id='loadMoreButton' type='button'>Load More ola</button>"; 
+}
+loadingButton();
+
+function loadingGif() {
+    //console.log(loading);
+
+    const loadMoreButton = document.getElementById("loadMoreButton");
+    loadMoreButton.remove();
+    
+    eventLoading.innerHTML += "<div id='wrapper' class='wrapper><span class='circle circle-1'></span><span class='circle circle-2'></span><span class='circle circle-3'></span><span class='circle circle-4'></span><span class='circle circle-5'><span></div>"; 
+}
 
 function convertPokemonToLi(pokemon) {
     return `
@@ -37,17 +53,27 @@ function loadPokemonItens(offset, limit) {
 
 loadPokemonItens(offset, limit)
 
+const loadMoreButton = document.getElementById('loadMoreButton');
 loadMoreButton.addEventListener('click', () => {
     offset += limit
     const qtdRecordsWithNexPage = offset + limit
 
     if (qtdRecordsWithNexPage >= maxRecords) {
         const newLimit = maxRecords - offset
-        loadPokemonItens(offset, newLimit)
-
+        
+        setTimeout(function() {
+            loadPokemonItens(offset, newLimit)
+        }, 3000)
+        
         loadMoreButton.parentElement.removeChild(loadMoreButton)
     } else {
-        loadPokemonItens(offset, limit)
+        loadingGif();
+        setTimeout(function() {
+            const loadingGif = document.getElementById("wrapper");
+            loadingGif.remove();
+            loadingButton();
+            loadPokemonItens(offset, limit)
+        }, 5000)
     }
 });
 
@@ -135,9 +161,6 @@ function remover(){
     // Remover class modalColor
     document.getElementById("modalColor").className = '';
    
-
-    //console.log(modalColor);
-
  }
 
 
