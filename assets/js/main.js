@@ -4,31 +4,19 @@ const abilitiesPokemon = document.getElementById("abilities");
 const modalBackgroudColor = document.getElementById("modalColor");
 const namePokemon = document.getElementById("namePokemon");
 const imagePokemon = document.querySelector("#imagePokemon");
-const eventLoading = document.getElementById("eventLoading");
+const loadingGif = document.getElementById("wrapper");
+
+// Oculta gif
+loadingGif.style.visibility = 'hidden';
 
 const maxRecords = 151;
 const limit = 10;
 let offset = 0;
 
 
-function loadingButton() {
-    //console.log(loading);
-    eventLoading.innerHTML += "<button id='loadMoreButton' type='button'>Load More ola</button>"; 
-}
-loadingButton();
-
-function loadingGif() {
-    //console.log(loading);
-
-    const loadMoreButton = document.getElementById("loadMoreButton");
-    loadMoreButton.remove();
-    
-    eventLoading.innerHTML += "<div id='wrapper' class='wrapper><span class='circle circle-1'></span><span class='circle circle-2'></span><span class='circle circle-3'></span><span class='circle circle-4'></span><span class='circle circle-5'><span></div>"; 
-}
-
 function convertPokemonToLi(pokemon) {
     return `
-        <li onclick="idPokemon(this);" id="${pokemon.number}" value="" class="pokemon ${pokemon.type}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <li onclick="idPokemon(this);" id="${pokemon.number}" value="" class="pokemon ${pokemon.type} shadow" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <span class="number">#${pokemon.number}</span>
             <span class="name">${pokemon.name}</span>
 
@@ -54,26 +42,28 @@ function loadPokemonItens(offset, limit) {
 loadPokemonItens(offset, limit)
 
 const loadMoreButton = document.getElementById('loadMoreButton');
+
 loadMoreButton.addEventListener('click', () => {
+
+
+    loadMoreButton.style.visibility = 'hidden';
+    loadingGif.style.visibility = 'visible';
+
     offset += limit
     const qtdRecordsWithNexPage = offset + limit
 
     if (qtdRecordsWithNexPage >= maxRecords) {
         const newLimit = maxRecords - offset
         
-        setTimeout(function() {
-            loadPokemonItens(offset, newLimit)
-        }, 3000)
-        
+        loadPokemonItens(offset, newLimit)
         loadMoreButton.parentElement.removeChild(loadMoreButton)
+
     } else {
-        loadingGif();
         setTimeout(function() {
-            const loadingGif = document.getElementById("wrapper");
-            loadingGif.remove();
-            loadingButton();
+            loadMoreButton.style.visibility = 'visible';
+            loadingGif.style.visibility = 'hidden';
             loadPokemonItens(offset, limit)
-        }, 5000)
+        }, 2000)
     }
 });
 
