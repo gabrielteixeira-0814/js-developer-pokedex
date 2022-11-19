@@ -5,7 +5,7 @@
 </h1>
 
 <h1>
-  <img src="asset/img/create-moday.gif" />
+  <img src="assets/image/gitPokemon.gif" />
 </h1>
 
 ## 🚨 About
